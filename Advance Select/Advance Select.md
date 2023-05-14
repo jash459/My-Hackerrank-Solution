@@ -143,8 +143,25 @@ The empty cell data for columns with less than the maximum number of names per o
 
 Link of question [Markdown Live Preview](https://www.hackerrank.com/challenges/occupations/problem?isFullScreen=true).
 
+using normal grouping :
+
+Link of video [Markdown Live Preview](https://www.youtube.com/watch?v=tCjXUAeJoDs).
+
+using pivot : 
+
+Link of video [Markdown Live Preview](https://www.youtube.com/watch?v=p-RNm_QOJEY).
+
 ```
-Query : set @d=0, @p=0, @s=0, @a=0;
+Query : Select 
+    MAX(IF(OCCUPATION = "DOCTOR",NAME,NULL)) AS DOCTOR , 
+    Min(IF(OCCUPATION = "PROFESSOR",NAME,NULL)) AS PROFESSOR , 
+    MAX(IF(OCCUPATION = "SINGER",NAME,NULL)) AS SINGER ,
+    Min(IF(OCCUPATION = "ACTOR",NAME,NULL)) AS ACTOR 
+FROM
+(select name,occupation,Row_number() Over (PARTITION BY occupation ORDER BY name) as row_num FROM occupations) as ord group by row_num;
+
+Another Approch :
+ set @d=0, @p=0, @s=0, @a=0;
 
 select min(Doctor), min(Professor), min(Singer), min(Actor)
 from(
@@ -162,10 +179,42 @@ from(
   order by Name
 ) as temp
 group by Row;
+
+Another Approch :
+
+SELECT *
+FROM
+  (SELECT MIN(DOCTOR) MIN_DOCTOR,
+          MIN(PROFESSOR) MIN_PROFESSOR,
+          MIN(SINGER) MIN_SINGER,
+          MIN(ACTOR) MIN_ACTOR
+   FROM
+     (SELECT CASE
+                 WHEN OCCUPATION = 'Doctor' THEN NAME
+             END AS DOCTOR,
+             CASE
+                 WHEN OCCUPATION = 'Professor' THEN NAME
+             END AS PROFESSOR,
+             CASE
+                 WHEN OCCUPATION = 'Singer' THEN NAME
+             END AS SINGER,
+             CASE
+                 WHEN OCCUPATION = 'Actor' THEN NAME
+             END AS ACTOR,
+             RANK() OVER (PARTITION BY OCCUPATION
+                          ORDER BY NAME) AS ROW_RANK
+      FROM OCCUPATIONS) X
+   GROUP BY ROW_RANK)
+ORDER BY MIN_DOCTOR,
+         MIN_PROFESSOR,
+         MIN_SINGER,
+         MIN_ACTOR;
+
+
 ```
 
 
-4. Binary Tree Nodes
+1. Binary Tree Nodes
    
    You are given a table, BST, containing two columns: N and P, where N represents the value of a node in Binary Tree, and P is the parent of N.
 

@@ -289,7 +289,6 @@ The data for wands of age 17 (code 5):
 Link of question [Markdown Live Preview](https://www.hackerrank.com/challenges/weather-observation-station-1/problem?isFullScreen=true).
 
 ```
-Query : 
 SELECT a.id, 
        b.age, 
        a.coins_needed, 

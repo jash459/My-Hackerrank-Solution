@@ -102,7 +102,9 @@ The STATION table is described as follows:
 Link of question [Markdown Live Preview](https://www.hackerrank.com/challenges/weather-observation-station-3/problem?isFullScreen=true).
 
 ```
-Query : Select distinct city from station where ID%2=0;
+Query : SELECT DISTINCT CITY
+FROM STATION
+WHERE MOD(ID, 2) = 0;
 ```
 
 
@@ -152,7 +154,7 @@ Link of question [Markdown Live Preview](https://www.hackerrank.com/challenges/w
 
 ```
 Query : select city,length(city) from station order By length(city) asc, city asc limit 1;
-select distinct(City),length(city) from station order by length(city) desc, city asc limit 1;
+select city,length(city) from station order by length(city) desc, city asc limit 1;
 ```
 
 
@@ -258,6 +260,10 @@ city not like "%e" and
 city not like "%i" and
 city not like "%o" and
 city not like "%u";
+
+or 
+
+SELECT DISTINCT(CITY) FROM STATION WHERE RIGHT(CITY,1) NOT IN ('a','e','i','o','u');
 ```
 
 
